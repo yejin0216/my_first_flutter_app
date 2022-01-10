@@ -8,26 +8,30 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SimpleApp()
+      home: showHide()
     );
   }
 }
 
-class SimpleApp extends StatefulWidget {
-  const SimpleApp({Key? key}) : super(key: key);
+class showHide extends StatefulWidget {
+  const showHide({Key? key}) : super(key: key);
 
   @override
-  _SimpleAppState createState() => _SimpleAppState();
+  _showHideState createState() => _showHideState();
 }
 
-class _SimpleAppState extends State<SimpleApp> {
+class _showHideState extends State<showHide> {
 
-  String box_text = "테스트 텍스트";
+  bool visible_val = true;
 
-  void _updateText()  {
+  void showWidget() {
     setState(() {
-      print("여기는 포인트 영역입니다.");
-      box_text = "박스가 변경되었습니다.";
+      visible_val = true;
+    });
+  }
+  void hideWidget() {
+    setState(() {
+      visible_val = false;
     });
   }
 
@@ -35,16 +39,28 @@ class _SimpleAppState extends State<SimpleApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("this is title"),
+        title: Text("show hide")
       ),
       body: Center(
-        child: Text(box_text)
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.create),
-        onPressed: _updateText,
-      ),
+          child:Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton(
+                child: Text("SHOW"),
+                onPressed: showWidget,
+              ),
+              RaisedButton(
+                child: Text("Hide"),
+                onPressed: hideWidget,
+              )
+              , Visibility(
+                visible: visible_val,
+                child: Text("This is Text", style: TextStyle(fontSize: 30.0))
+              ),
+              Image.asset("assets/images/profile.png")
+            ]
+          )
+      )
     );
   }
 }
-
